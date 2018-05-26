@@ -1,0 +1,36 @@
+{
+  "name": "hcp-set-dl",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node src/app",
+    "prd": "pm2 startOrRestart src/app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "hcp-set-dl",
+    "server",
+    "mongoose"
+  ],
+  "author": "SYSU-HCP",
+  "dependencies": {
+    "debug": "^3.1.0",
+    "koa": "^2.5.1",
+    "koa-bodyparser": "^4.2.0",
+    "koa-convert": "^1.2.0",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^3.2.0",
+    "koa-onerror": "^4.0.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^4.0.3",
+    "koa-views": "^6.1.4",
+    "koa-session": "^5.8.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0"
+  }
+}
