@@ -2,7 +2,7 @@ const Koa = require('koa')
 const app = new Koa()
 const views = require('koa-views')
 const json = require('koa-json')
-const bodyparser = require('koa-bodyparser')
+const koaBody = require('koa-body')
 const logger = require('koa-logger')
 const session = require('koa-session');
 const errorHandler = require('./middlewares/errorHandler');
@@ -28,7 +28,7 @@ app.use(errorHandler);
 app.use(logger());
 
 // middlewares
-app.use(bodyparser())
+app.use(koaBody())
 app.use(json())
 
 app.use(require('koa-static')(__dirname + '/../public'))
