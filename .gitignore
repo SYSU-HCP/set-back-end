@@ -61,4 +61,4 @@ typings/
 .next
 
 # upload files
-public/upload/*
+# public/upload/*
