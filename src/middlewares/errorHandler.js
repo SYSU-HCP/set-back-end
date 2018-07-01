@@ -1,6 +1,6 @@
 const Context = require('koa/lib/context');
 const { IErrorResponse } = require('../utils/response');
-// const errDebug = require('debug')('hcp-set:ERROR:errorHandler');
+const errDebug = require('debug')('hcp-set:ERROR:errorHandler');
 /**
  * 错误处理中间件
  * @param {Context} ctx

@@ -36,6 +36,7 @@ class IErrorResponse extends IResponse {
   constructor(ctx, msg, err, status) {
     super(ctx, msg, null, status);
     // 如果是可以处理的错误，检查是否有 status，没有就 400
+    debug(msg)
     debug(err);
     if (err instanceof ISoftError) {
       ctx.status = status || err.status;
