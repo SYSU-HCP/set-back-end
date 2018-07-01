@@ -9,6 +9,7 @@ const errorHandler = require('./middlewares/errorHandler');
 const debug = require('debug')('hcp-set:init');
 // config
 const config = require('./config');
+const {saveUploadFile} = require('./utils/files.js')
 // setting
 app.name = 'hcp-set-dl server';
 app.env = 'development';
@@ -28,29 +29,44 @@ app.use(errorHandler);
 app.use(logger());
 
 // middlewares
-app.use(koaBody())
+
+// 解析body form-data设置
+app.use(koaBody({
+  multipart: true,
+  // encoding:'gzip',
+  formidable:{
+    uploadDir: './public/upload', // 设置文件上传目录
+    keepExtensions: true,    // 保持文件的后缀
+    maxFieldsSize: 20 * 1024 * 1024, // 文件上传大小
+    // todo：保存文件查重
+    onFileBegin: saveUploadFile,
+  }
+}))
+
 app.use(json())
 
 app.use(require('koa-static')(__dirname + '/../public'))
 
-app.keys = ['hcp-set-dl-server'];
-const sessionMid = session({
-  key: 'hcp-set-dl-server', /** (string) cookie key (default is koa:sess) */
-  /** (number || 'session') maxAge in ms (default is 1 days) */
-  /** 'session' will result in a cookie that expires when session/browser is closed */
-  /** Warning: If a session cookie is stolen, this cookie will never expire */
-  maxAge: 1 * 60 * 60 * 1000,
-  overwrite: true, /** (boolean) can overwrite or not (default true) */
-  httpOnly: true, /** (boolean) httpOnly or not (default true) */
-  signed: true, /** (boolean) signed or not (default true) */
-  rolling: false,
-}, app);
+// app.keys = ['hcp-set-dl-server'];
+// const sessionMid = session({
+//   key: 'hcp-set-dl-server', /** (string) cookie key (default is koa:sess) */
+//   /** (number || 'session') maxAge in ms (default is 1 days) */
+//   /** 'session' will result in a cookie that expires when session/browser is closed */
+//   /** Warning: If a session cookie is stolen, this cookie will never expire */
+//   maxAge: 1 * 60 * 60 * 1000,
+//   overwrite: true, /** (boolean) can overwrite or not (default true) */
+//   httpOnly: true, /** (boolean) httpOnly or not (default true) */
+//   signed: true, /** (boolean) signed or not (default true) */
+//   rolling: false,
+// }, app);
 
-app.use(sessionMid);
+// app.use(sessionMid);
 
 // router
 const router = require('./routers');
+
 app.use(router.routes());
+
 
 // start http server
 try {
@@ -64,14 +80,16 @@ console.log('Start listening on ' + config.server.port);
 debug('Listening on ' + config.server.port)
 
 // graceful restart or stop process
-process.on('SIGINT', () => {
-  // some work before the process stop
-  console.log('Process is ready to close!');
-  // close the database connect and save
-  mongoose.connection.close(() => {
-    console.log('Mongoose connection with DB is disconnected through app termination');
-    // process exit
-    process.exit(0);
-  });
-  // todo 清除redis 做一些其他的收尾工作
-});
+// process.on('SIGINT', () => {
+//   // some work before the process stop
+//   console.log('Process is ready to close!');
+//   // close the database connect and save
+//   /*
+//   mongoose.connection.close(() => {
+//     console.log('Mongoose connection with DB is disconnected through app termination');
+//     // process exit
+//     process.exit(0);
+//   });
+//   */
+//   // todo 清除redis 做一些其他的收尾工作
+// });
