@@ -1,6 +1,6 @@
 const mirCtrl = require('../controller/mir.ctrl');
 const router = require('koa-router')()
-const koaBody = require('koa-body')
+// const koaBody = require('koa-body')
 
 router.prefix('/mir')
 

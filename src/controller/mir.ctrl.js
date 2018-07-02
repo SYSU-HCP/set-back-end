@@ -1,7 +1,7 @@
 const debug = require('debug')('hcp-set:api-mir');
 const { IResponse } = require('../utils/response');
 const ISoftError = require('../utils/error');
-const medicalImageReport = require('../services/medicalImageAnalysis');
+const medicalImageAnalysis = require('../services/medicalImageAnalysis');
 
 async function parseMIR(ctx) {
   // debug(ctx.request.files)
@@ -24,14 +24,14 @@ async function parseMIR(ctx) {
   var result = {};
   try {
     debug(`向智能医疗后台传送数据并请求分析...`)
-    result = await medicalImageReport.imageReport(theImage);
+    result = await medicalImageAnalysis.imageReport(theImage);
   }
   catch (err) {
     debug(`智能医疗服务出现未知错误`)
     debug(err);
     debug(result);
   }
- 
+
   if (result.err !== undefined && result.err === 0) {
     debug('MIR医疗图像分析成功！')
     // debug(result);
