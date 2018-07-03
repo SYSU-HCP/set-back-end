@@ -17,7 +17,7 @@ class medicalImageAnalysis {
   /**
    * @name getImageReport
    * @requires file image file object
-   * @returns 2 
+   * @returns 2
    * statusCode : 200
    * data : { heatmapImageUrl:url, captions:string }
    * @description 获取取得医疗图像报告
