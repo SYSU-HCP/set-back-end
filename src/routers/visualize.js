@@ -6,5 +6,6 @@ router.prefix('/visualize')
 router
   .post('/detection', visualizeCtrl.detection)
   .post('/urlDetection', visualizeCtrl.urlDetection)
+  .post('/segment', visualizeCtrl.segment)
 
 module.exports = router.routes();

@@ -3,11 +3,13 @@ const FormData = require('form-data');
 const debug = require('debug')('hcp-set:modelVisualization');
 var fs = require('fs');
 const baseURL = 'http://222.200.180.105:7070/api';
+const segmentURL = 'http://222.200.180.105:8085/api';
 const testURL = 'http://localhost:8888/api';
 
 const url = {
   detection: baseURL + '/detection',
-  urlDetection: baseURL + '/detectionurl'
+  urlDetection: baseURL + '/detectionurl',
+  segment: segmentURL +'/segment',
 };
 
 // imgType用来区别传入类型
@@ -23,7 +25,7 @@ async function detectionServer(imgType, data, url) {
   try {
     if (imgType === 2) {
       reportData = await axios.post(url, data, { headers: data.getHeaders() });
-    } else {
+    } else if(imgType) {
       reportData = await axios.post(url, data);
     }
     // var reportData = await axios.post( url.test, fd,{ headers: fd.getHeaders()})
@@ -92,6 +94,19 @@ class modelVisualization {
       imgurl: imageUrl
     }
     return await detectionServer(1, postData, url.urlDetection);
+  }
+
+  async segment(data) {
+    debug(`区域分析进行中。。。`)
+    // debug(theImage.name);
+    let fd = new FormData();
+    fd.append('type', 'image');
+    fd.append('img', fs.createReadStream(data.img.path), data.img.name);
+    fd.append('type', 'string');
+    fd.append('layer',data.layer);
+    fd.append('type', 'string');
+    fd.append('unit',data.unit);
+    return await detectionServer(2, fd, url.segment);
   }
 
 }
