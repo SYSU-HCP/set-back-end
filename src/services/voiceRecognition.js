@@ -12,6 +12,7 @@ class voiceRecognition {
     var returnData = {};
     try {
       var reportData = await axios.get(url);
+      debug(`reportDate:${reportData}`)
       debug(`语音识别顺利完成,返回结果: ${reportData.words}`);
       returnData = {
         err: 0,
