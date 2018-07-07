@@ -7,12 +7,8 @@ const url = 'http://172.18.160.97:8080/api/recognition';
 
 class recognition {
   // @param img the image to upload to server
-<<<<<<< HEAD
   // @return true or false
   async uploadImgToServer(img) {
-=======
-  uploadImgToServer(img) {
->>>>>>> c87f2d0cb5cca6c8fead3110a293851508885f13
     debug(`上传图片：POST -> ${url}`);
     let fd = new FormData();
     fd.append('type', 'image');
