@@ -2,7 +2,7 @@ const axios = require('../utils/axios');
 const FormData = require('form-data');
 const debug = require('debug')('hcp-set:clothesDetection');
 var fs = require('fs');
-const baseURL = 'http://172.18.160.97:8000/api';
+const baseURL = 'http://172.18.160.97:8080/api';
 const testURL = 'http://localhost:8888/api';
 
 const url = {
