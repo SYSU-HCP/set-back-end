@@ -4,6 +4,6 @@ const router = require('koa-router')()
 router.prefix('/recognition')
 
 router
-  .post('/uploadImage', recognition.uploadImage)
+  .post('/uploadImage', tagClassificationCtrl.uploadImage)
 
 module.exports = router.routes();

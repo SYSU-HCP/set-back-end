@@ -3,19 +3,19 @@ const FormData = require('form-data');
 const debug = require('debug')('hcp-set:recognition');
 const axios = require('../utils/axios');
 
-const url = 'http://172.18.160.97/api/recognition';
+const url = 'http://172.18.160.97:8080/api/recognition';
 
 class recognition {
   // @param img the image to upload to server
   // @return true or false
-  uploadImgToServer(img) {
+  async uploadImgToServer(img) {
     debug(`上传图片：POST -> ${url}`);
-    let fd = n{ew FormData();
+    let fd = new FormData();
     fd.append('type', 'image');
     fd.append('img', fs.createReadStream(img.path), img.name);
     var returnData = {};
     try {
-      var reportData = await axios.post(url, fd, , { headers: fd.getHeaders() });
+      var reportData = await axios.post(url, fd, { headers: fd.getHeaders() });
       if (reportData.data.rtn === 200) {
         debug(`计算顺利完成`);
         debug(reportData.data.msg);
