@@ -2,32 +2,21 @@ var fs = require('fs');
 const debug = require('debug')('hcp-set:voiceRecognition');
 const axios = require('../utils/axios');
 
-const url = 'http://222.200.180.105:8080/api/voiceRecognition';
+const url = 'http://222.200.180.105:36541/api/async_api';
 
 class voiceRecognition {
   // @param id the id to upload to server
   uploadIdToServer(id) {
-    debug(`上传id ${id} ：POST -> ${url}`);
+    var reqUrl = url + '?id=' + id;
+    debug(`调用语音识别服务：${reqUrl}`);
     var returnData = {};
     try {
-      var reportData = await axios.post(url, id);
-      if (reportData.data.rtn === 200) {
-        debug(`语音识别顺利完成`);
-        debug(reportData.data.msg);
-        returnData = {
-          err: 0,
-          msg: reportData.data.msg,
-          data: reportData.data.data
-        }
-      } else {
-        debug(`警告：语音识别失败`);
-        debug(reportData.data);
-        returnData.err = reportData.data.rtn;
-        returnData.errMsg = `语音识别失败：未定义的错误类型\n`;
-        if (reportData.data.msg) {
-          debug(reportData.data.msg);
-          returnData.errMsg += reportData.data.msg;
-        }
+      var reportData = await axios.get(url);
+      debug(`语音识别顺利完成,返回结果: ${reportData.words}`);
+      returnData = {
+        err: 0,
+        msg: "",
+        data: reportData.words
       }
     } catch (err) {
       debug(`语音识别服务出错：`)
