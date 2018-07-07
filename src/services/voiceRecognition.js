@@ -7,7 +7,7 @@ const url = 'http://222.200.180.105:36541/api/async_api';
 class voiceRecognition {
   // @param id the id to upload to server
   async uploadIdToServer(id) {
-    var reqUrl = url + '?id=' + id;
+    var reqUrl = url + '?id=id_' + id;
     debug(`调用语音识别服务：${reqUrl}`);
     var returnData = {};
     try {
