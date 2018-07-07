@@ -1,9 +1,9 @@
-const tagClassificationCtrl = require('../controller/recognition.ctrl');
+const recognitionCtrl = require('../controller/recognition.ctrl');
 const router = require('koa-router')()
 
 router.prefix('/recognition')
 
 router
-  .post('/uploadImage', recognition.uploadImage)
+  .post('/uploadImage', recognitionCtrl.uploadImage)
 
 module.exports = router.routes();
