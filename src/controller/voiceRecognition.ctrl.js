@@ -22,7 +22,7 @@ async function analyzeResult(ctx, result) {
 
 // 接收id，将id上传到计算服务器上
 async function uploadId(ctx) {
-  let theId = ctx.request.body;
+  let theId = ctx.request.body.id;
   debug(`第六组语音识别：收到上传id请求, id为${theId}`);
   if (!theId || theId === "") {
     throw new ISoftError('No id received');
