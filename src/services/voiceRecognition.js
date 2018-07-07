@@ -17,7 +17,7 @@ class voiceRecognition {
       returnData = {
         err: 0,
         msg: "",
-        data: reportData.words
+        data: reportData.data.words
       }
     } catch (err) {
       debug(`语音识别服务出错：`)
