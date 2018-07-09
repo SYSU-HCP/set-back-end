@@ -1,0 +1,18 @@
+{
+  "name": "set-dl-ci",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node continuousIntegration.js",
+    "prd": "pm2 startOrRestart continuousIntegration.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "set-dl-ci",
+    "continuous Integration"
+  ],
+  "author": "SYSU-HCP",
+  "dependencies": {
+    "github-webhook-handler": "^0.7.1"
+  }
+}

@@ -4,9 +4,9 @@
 ## 使用
 ### step 1
 ```
-npm install github-webhook-handler
+npm install
 ```
 ### step 2
 ```
-node continuousIntegration.js
+npm start
 ```
