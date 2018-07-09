@@ -24,11 +24,9 @@ handler.on('push', function (event) {
   console.log('Received a push event for %s to %s',
     event.payload.repository.name,
     event.payload.ref);
-  for (var i in config.scripts) {
     runCommand('sh', ['./autoIntegration.sh'], function (txt) {
       console.log(txt);
     })
-  }
 })
 
 function runCommand(cmd, args, callback) {
