@@ -2,12 +2,13 @@ const axios = require('../utils/axios');
 const FormData = require('form-data');
 const debug = require('debug')('hcp-set:clothesDetection');
 var fs = require('fs');
-const baseURL = 'http://172.18.160.97:8080/api';
+const baseURL = 'http://172.18.160.97:8000/api';
+const baseIP = 'http://172.18.160.97:8000'
 const testURL = 'http://localhost:8888/api';
 
 const url = {
-  classification: baseURL + '/xxxxx',
-  xxxxx: baseURL +'/xxxx'
+  classification: baseURL + '/cloth_search',
+  xxxxx: baseURL + '/xxxx'
 };
 
 // imgType用来区别传入类型
@@ -23,13 +24,18 @@ async function detectionServer(imgType, data, url) {
   try {
     if (imgType === 2) {
       reportData = await axios.post(url, data, { headers: data.getHeaders() });
-    } else if(imgType) {
+    } else if (imgType) {
       reportData = await axios.post(url, data);
     }
     // var reportData = await axios.post( url.test, fd,{ headers: fd.getHeaders()})
     if (reportData.data.rtn === 200) {
       debug(`分析顺利完成`);
       debug(reportData.data.msg);
+      for (var i in reportData.data.data.images) {
+        // 加上http头
+        reportData.data.data.images[i] = baseIP + reportData.data.data.images[i]
+        // console.log(reportData.data.data.images[i])
+      }
       returnData = {
         err: 0,
         msg: reportData.data.msg,
