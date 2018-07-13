@@ -28,7 +28,7 @@ async function detectionServer(imgType, data, url) {
       reportData = await axios.post(url, data);
     }
     // var reportData = await axios.post( url.test, fd,{ headers: fd.getHeaders()})
-    if (reportData.data.rtn === 200) {
+    if (reportData.data.rtn === 200||reportData.data.rtn===404) {
       debug(`分析顺利完成`);
       debug(reportData.data.msg);
       for (var i in reportData.data.data.images) {
