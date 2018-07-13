@@ -2,7 +2,10 @@ const debug = require('debug')('hcp-set:api-recognition');
 const { IResponse } = require('../utils/response');
 const ISoftError = require('../utils/error');
 const recognition = require('../services/recognition');
+const path = require('path');
+const fs = require('fs');
 
+const clothesImagesFolder = path.join(__dirname, `../../public/images/group4/`);
 async function analyzeResult(ctx, result) {
   if (result.err !== undefined && result.err === 0) {
     debug(result.msg);
@@ -50,7 +53,41 @@ async function uploadImage(ctx) {
   }
   return analyzeResult(ctx, result);
 }
+// 接收图片，将图片上传到计算服务器上
+async function uploadImageUrl(ctx) {
+  debug(`第四组图像标签分类：收到上传图片请求`);
+  let theImage = {};
+  // debug(ctx.request.body)
+  // debug(ctx.request.body.img)
+  if (ctx.request.body && ctx.request.body.img) {
+    theImage.name = ctx.request.body.img;
+    // debug(typeof(theImage.name))
+    if (typeof (theImage.name) === "string") {
+      theImage.path = clothesImagesFolder + theImage.name;
+      debug(theImage);
+      if (!fs.existsSync(theImage.path)) {
+        throw new ISoftError('Image does not exist !')
+      }
+      var result = {};
+      try {
+        debug(`向智能分类服务器传送数据并分析...`);
+        result = await recognition.uploadImgToServer(theImage);
+      }
+      catch (err) {
+        debug(`智能分类服务出现未知错误`);
+        debug(err);
+        debug(result);
+      }
+      return analyzeResult(ctx, result);
+    } else {
+      throw new ISoftError('Wront image URL')
+    }
+  } else {
+    throw new ISoftError('No images in body: img')
+  }
+}
 
 module.exports = {
-  uploadImage
+  uploadImage,
+  uploadImageUrl
 }
