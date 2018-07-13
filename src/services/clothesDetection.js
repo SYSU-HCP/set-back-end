@@ -86,11 +86,16 @@ class clothesDetection {
     debug(`分类进行中。。。`)
     // debug(theImage.name);
     let fd = new FormData();
-    fd.append('type', 'image')
-    fd.append('img', fs.createReadStream(theImage.path), theImage.name);
-    return await detectionServer(2, fd, url.classification);
+    try {
+      fd.append('type', 'image')
+      fd.append('img', fs.createReadStream(theImage.path), theImage.name);
+      return await detectionServer(2, fd, url.classification);
+    }
+    catch (err) {
+      debug(err);
+      throw (err);
+    }
   }
-
 }
 
 module.exports = new clothesDetection();

@@ -2,6 +2,10 @@ const debug = require('debug')('hcp-set:api-detection');
 const { IResponse } = require('../utils/response');
 const ISoftError = require('../utils/error');
 const clothesDetection = require('../services/clothesDetection');
+const path = require('path');
+const fs = require('fs');
+
+const clothesImagesFolder = path.join(__dirname, `../../public/images/clothes/`);
 
 async function analyzeDetectionResult(ctx, result) {
   if (result.err !== undefined && result.err === 0) {
@@ -54,6 +58,40 @@ async function classification(ctx) {
   return analyzeDetectionResult(ctx, result);
 }
 
+async function classificationUrl(ctx) {
+  // debug(ctx.request.files)
+  debug(`收到检测的请求：`)
+  let theImage = {};
+  // debug(ctx.request.body)
+  // debug(ctx.request.body.img)
+  if (ctx.request.body && ctx.request.body.img) {
+    theImage.name = ctx.request.body.img;
+    // debug(typeof(theImage.name))
+    if (typeof(theImage.name) === "string") {
+      theImage.path = clothesImagesFolder + theImage.name;
+      debug(theImage);
+      if (!fs.existsSync(theImage.path)) {
+        throw new ISoftError('Image does not exist !')
+      } 
+      var result = {};
+      try {
+        debug(`向图像检测服务传送数据并分析...`);
+        result = await clothesDetection.classification(theImage);
+      }
+      catch (err) {
+        debug(`图像检测服务出现未知错误`);
+        debug(err);
+        debug(result);
+      }
+      return analyzeDetectionResult(ctx, result);
+    } else {
+      throw new ISoftError('Wront image URL')
+    }
+  } else {
+    throw new ISoftError('No images in body: img')
+  }
+}
 module.exports = {
-  classification
+  classification,
+  classificationUrl
 };

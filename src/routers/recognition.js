@@ -5,5 +5,6 @@ router.prefix('/recognition')
 
 router
   .post('/uploadImage', recognitionCtrl.uploadImage)
+  // .post('/uploadImageUrl', recognitionCtrl.uploadImageUrl)
 
 module.exports = router.routes();

@@ -5,6 +5,7 @@ router.prefix('/detection')
 
 router
   .post('/classification', detectionCtrl.classification)
+  .post('/classificationUrl', detectionCtrl.classificationUrl)
 
 
 module.exports = router.routes();
